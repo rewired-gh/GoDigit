@@ -2,76 +2,54 @@ import BigInt
 import SwiftUI
 
 class IntegerToolViewModel: ObservableObject {
-  @Published var inputRadix: Radix = .dec {
-    didSet {
-      updateInputLeading()
-      calculate()
-    }
-  }
-
-  @Published var inputKind: NumberKind = .math {
-    didSet {
-      calculate()
-    }
-  }
-
+  @Published var inputRadix: Radix = .dec
+  @Published var inputKind: NumberKind = .math
   @Published var inputWidthExponent: Double = 5 {
     didSet {
       inputWidth = 1 << Int(inputWidthExponent)
-      inputWidthString = String(inputWidth)
-      calculate()
     }
   }
 
-  @Published var inputWidthString: String = "32" {
-    didSet {
-      let parsed: Int? = Int(inputWidthString)
-      if parsed != nil && parsed! > 0 && parsed! <= 128 {
-        inputWidth = parsed!
-      } else {
-        inputWidthString = String(inputWidth)
-      }
-      updateInputLeading()
-      calculate()
-    }
-  }
-
-  var inputWidth: Int = 32
-  @Published var inputLeadingString: String = "32'd"
-  @Published var inputValueString: String = "" {
-    didSet {
-      calculate()
-    }
-  }
-
-  var inputBigInt: BigInt?
-  @Published var outputNatrualDec: String = "Unavailable"
-  @Published var outputComputerBin: String = "Unavailable"
-  @Published var outputComputerHex: String = "Unavailable"
-  @Published var outputNatrualHex: String = "Unavailable"
-
-  func updateInputLeading() {
-    inputLeadingString = inputWidthString + "'" + inputRadix.letter
-  }
-
-  func calculate() {
-    inputBigInt = stringToBigInt(
+  @Published var inputWidth: Int = 32
+  @Published var inputValueString: String = ""
+  var inputBigInt: BigInt? {
+    stringToBigInt(
       str: inputValueString.replacingOccurrences(of: "_", with: ""),
       radix: inputRadix,
       width: inputWidth,
       kind: inputKind
     )
+  }
+
+  var outputNatrualDec: String {
     if inputBigInt != nil {
-      let num = inputBigInt!
-      outputNatrualDec = String(num)
-      outputComputerBin = num.toComputerBin(width: inputWidth)
-      outputComputerHex = num.toComputerHex(width: inputWidth)
-      outputNatrualHex = String(num, radix: 16)
+      String(inputBigInt!)
     } else {
-      outputNatrualDec = "Unavailable"
-      outputComputerBin = "Unavailable"
-      outputComputerHex = "Unavailable"
-      outputNatrualHex = "Unavailable"
+      "Unavailable"
+    }
+  }
+
+  var outputComputerBin: String {
+    if inputBigInt != nil {
+      inputBigInt!.toComputerBin(width: inputWidth)
+    } else {
+      "Unavailable"
+    }
+  }
+
+  var outputComputerHex: String {
+    if inputBigInt != nil {
+      inputBigInt!.toComputerHex(width: inputWidth)
+    } else {
+      "Unavailable"
+    }
+  }
+
+  var outputNatrualHex: String {
+    if inputBigInt != nil {
+      String(inputBigInt!, radix: 16)
+    } else {
+      "Unavailable"
     }
   }
 }
@@ -104,18 +82,14 @@ struct IntegerToolView: View {
                    label: {
                      Text("Input width exponent")
                    })
-            TextField("Width", text: $model.inputWidthString)
+            TextField("Width", value: $model.inputWidth, formatter: numberFormatter)
               .frame(maxWidth: 70)
               .textFieldStyle(RoundedBorderTextFieldStyle())
+              .keyboardType(.numberPad)
           }
         }
         SectionView(title: "Input value", icon: "equal.circle") {
-          HStack {
-            Text(model.inputLeadingString)
-            TextField("Enter a number", text: $model.inputValueString)
-              .textFieldStyle(RoundedBorderTextFieldStyle())
-          }
-          .font(.system(.body, design: .monospaced))
+          RadixTextField(radix: $model.inputRadix, width: $model.inputWidth, text: $model.inputValueString)
         }
         Divider()
         Label("Tips: Outputs are selectable", systemImage: "lightbulb")
@@ -148,9 +122,14 @@ struct IntegerToolView: View {
             .textSelection(.enabled)
         }
       }
+      .frame(
+        maxWidth: .infinity,
+        alignment: .topLeading
+      )
       .padding()
       .navigationTitle("Integer converter")
     }
+    .tint(.green)
   }
 }
 

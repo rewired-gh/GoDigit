@@ -109,6 +109,7 @@ struct LearnIntegerView: View {
       .navigationTitle("Integer and computer")
       .padding()
     }
+    .tint(.green)
   }
 }
 

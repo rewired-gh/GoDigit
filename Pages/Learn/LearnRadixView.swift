@@ -48,6 +48,7 @@ struct LearnRadixView: View {
       .navigationTitle("Number and radix")
       .padding()
     }
+    .tint(.blue)
   }
 }
 
