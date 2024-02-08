@@ -17,6 +17,8 @@ struct RadixTextField: View {
       Text(leadingText)
       TextField("Enter a number", text: $text)
         .textFieldStyle(RoundedBorderTextFieldStyle())
+        .autocorrectionDisabled()
+        .autocapitalization(.none)
     }
     .font(.system(.body, design: .monospaced))
   }

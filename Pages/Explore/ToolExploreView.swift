@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ToolExploreView: View {
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ScrollView {
         LazyVGrid(columns: [GridItem(.flexible())]) {
           NavigationLink(destination: IntegerToolView()) {
@@ -14,8 +14,8 @@ struct ToolExploreView: View {
           }
           NavigationLink(destination: SegmentorToolView()) {
             CardView(
-              title: "Binary segmentor",
-              description: "Divide binary bits into readable hexadecimal segments. It is useful for deciphering the meaning of each segment.",
+              title: "Bits extractor",
+              description: "Extract binary bits and convert segments to readable hexadecimal. It is useful for perceiving the value of each segment.",
               color: .pink
             )
           }
@@ -30,7 +30,6 @@ struct ToolExploreView: View {
       .padding()
       .navigationTitle("Tools")
     }
-    .navigationViewStyle(StackNavigationViewStyle())
   }
 }
 

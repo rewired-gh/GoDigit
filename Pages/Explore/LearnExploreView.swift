@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LearnExploreView: View {
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ScrollView {
         LazyVGrid(columns: [GridItem(.flexible())]) {
           NavigationLink(destination: LearnRadixView()) {
@@ -30,7 +30,6 @@ struct LearnExploreView: View {
       .padding()
       .navigationTitle("Learn")
     }
-    .navigationViewStyle(StackNavigationViewStyle())
   }
 }
 

@@ -86,6 +86,8 @@ struct IntegerToolView: View {
               .frame(maxWidth: 70)
               .textFieldStyle(RoundedBorderTextFieldStyle())
               .keyboardType(.numberPad)
+              .autocorrectionDisabled()
+              .autocapitalization(.none)
           }
         }
         SectionView(title: "Input value", icon: "equal.circle") {

@@ -31,8 +31,12 @@ class SegmentorToolViewModel: ObservableObject {
     segments.append(Segment(start: newStartIdx, end: newStartIdx, label: ""))
   }
 
-  func deleteSegment(index: Int) {
-    segments.remove(at: index)
+  func deleteSegment(element: Segment) {
+    let index = segments.firstIndex(where: { $0.id == element.id })
+    guard index != nil else {
+      return
+    }
+    segments.remove(at: index!)
   }
 
   func calculateOutput() {
@@ -82,7 +86,7 @@ struct SegmentorToolView: View {
             .foregroundStyle(.secondary)
             .font(.footnote)
             .padding(.vertical, 5)
-          ForEach(Array($model.segments.enumerated()), id: \.offset) { i, $segment in
+          ForEach($model.segments) { $segment in
             HStack(spacing: 30) {
               HStack(spacing: 5) {
                 Text("[")
@@ -90,18 +94,24 @@ struct SegmentorToolView: View {
                   .textFieldStyle(RoundedBorderTextFieldStyle())
                   .frame(minWidth: 50)
                   .keyboardType(.numberPad)
+                  .autocorrectionDisabled()
+                  .autocapitalization(.none)
                 Text(":")
                 TextField("Start", value: $segment.start, formatter: numberFormatter)
                   .textFieldStyle(RoundedBorderTextFieldStyle())
                   .frame(minWidth: 50)
                   .keyboardType(.numberPad)
+                  .autocorrectionDisabled()
+                  .autocapitalization(.none)
                 Text("]")
               }
               .font(.system(.body, design: .monospaced))
               TextField("Label", text: $segment.label)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
               Button(action: {
-                model.deleteSegment(index: i)
+                model.deleteSegment(element: $segment.wrappedValue)
               }) {
                 Image(systemName: "trash")
                   .foregroundColor(.red)
@@ -150,11 +160,13 @@ struct SegmentorToolView: View {
                   HStack(spacing: 0) {
                     Text("Hex: ")
                     Text(output.hex)
+                      .textSelection(.enabled)
                     Spacer()
                   }
                   HStack(spacing: 0) {
                     Text("Bin: ")
                     Text(output.bin)
+                      .textSelection(.enabled)
                     Spacer()
                   }
                 }
