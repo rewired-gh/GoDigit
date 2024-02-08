@@ -4,9 +4,9 @@ import SwiftUI
 struct LearnIntegerView: View {
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 28) {
+      LazyVStack(alignment: .leading, spacing: 28) {
         H2("It's binary after all")
-        LaTeX("""
+        Text("""
         Most (if not all) computers store numbers in binary. The idea of binary is based on active-high and active-low states in digital circuits.
 
         Because any circuit can't be infinite, the width of number, namely how many digits can a number have, is usually a fixed value. Common widths of number (aka. word lengths) are 32, 64, and 8.
@@ -18,13 +18,13 @@ struct LearnIntegerView: View {
         However, since we only have 8 binary digits for computation, the higher digits can't be store and will be simply ignored. In other words, the number overflows.
         """)
         H2("Unsigned and signed")
-        LaTeX("""
+        Text("""
         Unsigned integer numbers use every digits in a computer to store a natural number. The previous example is an unsigned number. Signed numbers are number with sign, namely they can be positive or negative.
 
         But when it comes to store a signed number in the computer, things become a little bit trickier. If we simply use one bit to represent the sign, we encounter an issue of having duplicated zeros: a positive zero (+0) and a negative zero (-0).
         """)
         H2("Two's complement")
-        LaTeX("""
+        Text("""
         One elegant but not so intuitive method to represent signed integer numbers in computer is the two's complement. It doesn't have the problem of having two zeros.
 
         Here we won't go through how to come up with this brilliant idea and why it is the de facto standard. We just simply learn about how to do conversions.
@@ -89,7 +89,7 @@ struct LearnIntegerView: View {
           .font(.system(size: 24, design: .monospaced))
           .frame(width: .infinity)
           .padding(.top, -12)
-        LaTeX("""
+        Text("""
         Interesting. The the two's complement of -128 is itself!
 
         Actually, two's complement is really a deep rabit hole. I strongly suggest to read the materials in the next section, if you want to learn more about it.

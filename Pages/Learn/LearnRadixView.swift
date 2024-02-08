@@ -4,7 +4,7 @@ import SwiftUI
 struct LearnRadixView: View {
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: 28) {
+      LazyVStack(alignment: .leading, spacing: 28) {
         H2("What is radix")
         LaTeX("""
         Radix is a term used in mathematics and computer science to refer to the number of unique digits used to represent numbers.
@@ -48,7 +48,7 @@ struct LearnRadixView: View {
       .navigationTitle("Number and radix")
       .padding()
     }
-    .tint(.blue)
+    .tint(.cyan)
   }
 }
 
