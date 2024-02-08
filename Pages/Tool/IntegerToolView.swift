@@ -75,23 +75,19 @@ struct IntegerToolView: View {
         SectionView(title: "Input number width (bits)", icon: "ruler") {
           HStack {
             Slider(value: $model.inputWidthExponent,
-                   in: 3 ... 6,
+                   in: 2 ... 7,
                    step: 1,
-                   minimumValueLabel: Text("8"),
-                   maximumValueLabel: Text("64"),
+                   minimumValueLabel: Text("4"),
+                   maximumValueLabel: Text("128"),
                    label: {
                      Text("Input width exponent")
                    })
-            TextField("Width", value: $model.inputWidth, formatter: numberFormatter)
+            NumberField(value: $model.inputWidth, maxValue: 512, prompt: "Width")
               .frame(maxWidth: 70)
-              .textFieldStyle(RoundedBorderTextFieldStyle())
-              .keyboardType(.numberPad)
-              .autocorrectionDisabled()
-              .autocapitalization(.none)
           }
         }
         SectionView(title: "Input value", icon: "equal.circle") {
-          RadixTextField(radix: $model.inputRadix, width: $model.inputWidth, text: $model.inputValueString)
+          RadixTextField(radix: $model.inputRadix, width: $model.inputWidth, text: $model.inputValueString) {}
         }
         Divider()
         Label("Tips: Outputs are selectable", systemImage: "lightbulb")

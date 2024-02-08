@@ -1,14 +1,6 @@
 import BigInt
 import Foundation
 
-let numberFormatter: NumberFormatter = {
-  var nf = NumberFormatter()
-  nf.numberStyle = .decimal
-  nf.maximum = 512
-  nf.minimum = 0
-  return nf
-}()
-
 enum Radix: String, CaseIterable, Identifiable {
   case dec, hex, oct, bin
   var id: Self { self }

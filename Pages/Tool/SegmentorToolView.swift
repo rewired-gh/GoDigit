@@ -90,19 +90,11 @@ struct SegmentorToolView: View {
             HStack(spacing: 30) {
               HStack(spacing: 5) {
                 Text("[")
-                TextField("End", value: $segment.end, formatter: numberFormatter)
-                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                NumberField(value: $segment.end, maxValue: 512, prompt: "End")
                   .frame(minWidth: 50)
-                  .keyboardType(.numberPad)
-                  .autocorrectionDisabled()
-                  .autocapitalization(.none)
                 Text(":")
-                TextField("Start", value: $segment.start, formatter: numberFormatter)
-                  .textFieldStyle(RoundedBorderTextFieldStyle())
+                NumberField(value: $segment.start, maxValue: 512, prompt: "Start")
                   .frame(minWidth: 50)
-                  .keyboardType(.numberPad)
-                  .autocorrectionDisabled()
-                  .autocapitalization(.none)
                 Text("]")
               }
               .font(.system(.body, design: .monospaced))
@@ -110,6 +102,7 @@ struct SegmentorToolView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocorrectionDisabled()
                 .autocapitalization(.none)
+                .submitLabel(.done)
               Button(action: {
                 model.deleteSegment(element: $segment.wrappedValue)
               }) {
@@ -123,7 +116,7 @@ struct SegmentorToolView: View {
               model.addNewSegment()
             }
             .frame(maxWidth: .infinity)
-            Button("Save preset", systemImage: "square.and.arrow.down") {
+            Button("Save as preset", systemImage: "square.and.arrow.down") {
               model.addNewSegment()
             }
             .frame(maxWidth: .infinity)
@@ -138,9 +131,12 @@ struct SegmentorToolView: View {
           }.pickerStyle(SegmentedPickerStyle())
         }
         SectionView(title: "Input value", icon: "equal.circle") {
-          RadixTextField(radix: $model.inputRadix, width: Binding.constant(0), text: $model.inputValueString)
+          RadixTextField(radix: $model.inputRadix, width: Binding.constant(0), text: $model.inputValueString) {
+            model.calculateOutput()
+          }
         }
         Button("Calculate segments", systemImage: "wand.and.stars") {
+          UIApplication.shared.endEditing()
           model.calculateOutput()
         }
         .frame(maxWidth: .infinity)

@@ -4,6 +4,8 @@ struct RadixTextField: View {
   @Binding var radix: Radix
   @Binding var width: Int
   @Binding var text: String
+  var onSubmit: () -> Void
+
   var leadingText: String {
     if width > 0 {
       String(width) + "'" + radix.letter
@@ -19,6 +21,8 @@ struct RadixTextField: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .autocorrectionDisabled()
         .autocapitalization(.none)
+        .submitLabel(.done)
+        .onSubmit(onSubmit)
     }
     .font(.system(.body, design: .monospaced))
   }
