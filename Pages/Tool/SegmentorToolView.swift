@@ -187,7 +187,7 @@ struct SegmentorToolView: View {
         alignment: .topLeading
       )
       .padding()
-      .navigationTitle("Binary segmentor")
+      .navigationTitle("Bits extractor")
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Presets") {
