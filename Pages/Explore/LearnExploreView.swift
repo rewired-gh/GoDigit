@@ -8,20 +8,20 @@ struct LearnExploreView: View {
           NavigationLink(destination: LearnRadixView()) {
             CardView(
               title: "Number and radix",
-              description: "Learn what is radix and how to convert between radices. It will cover three common radices, namely decimal, hexadecimal, octal, and binary.",
+              description: "Learn what is a radix and how to convert between radices. It covers three commonly-used radices.",
               color: .cyan
             )
           }
           NavigationLink(destination: LearnIntegerView()) {
             CardView(
               title: "Integer in computer",
-              description: "Learn how integer numbers are stored in computers. It will cover the basics of two's complement.",
+              description: "Learn how integer numbers are stored in computers. It covers the basics of two's complement.",
               color: .accentColor
             )
           }
           CardView(
             title: "Coming soon...",
-            description: "Thank you for using this app! I'm working hard to bring you more learning resources. Stay tuned and thank you for your patience.",
+            description: "Thank you for using this app! I'm working hard to bring you more learning resources. Stay tuned and thanks for your patience.",
             color: .gray
           )
           .opacity(0.8)

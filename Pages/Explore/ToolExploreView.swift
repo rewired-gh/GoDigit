@@ -21,7 +21,7 @@ struct ToolExploreView: View {
           }
           CardView(
             title: "Coming soon...",
-            description: "Thank you for using this app! I'm working hard to bring you more tools and features. Stay tuned and thank you for your patience.",
+            description: "Thank you for using this app! I'm working hard to bring you more tools and features. Stay tuned and thank for your patience.",
             color: .gray
           )
           .opacity(0.8)

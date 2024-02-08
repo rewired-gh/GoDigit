@@ -33,7 +33,6 @@ struct MyApp: App {
           }).buttonStyle(SOCEmptyButton())
         }
       }
-      .preferredColorScheme(.light)
     }
   }
 }

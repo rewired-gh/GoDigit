@@ -17,7 +17,7 @@ struct CardView: View {
         .multilineTextAlignment(.leading)
     }
     .padding()
-    .frame(maxWidth: .infinity, minHeight: 90, alignment: .leading)
+    .frame(maxWidth: .infinity, minHeight: 130, maxHeight: 130, alignment: .leading)
     .background(color.opacity(0.15))
     .cornerRadius(15)
   }
