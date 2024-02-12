@@ -19,6 +19,13 @@ struct ToolExploreView: View {
               color: .pink
             )
           }
+          NavigationLink(destination: FloatToolView()) {
+            CardView(
+              title: "Float inspector",
+              description: "Inspect the raw representaion of floating-point numbers. It is useful for understanding the implementation of IEEE 754.",
+              color: .purple
+            )
+          }
           CardView(
             title: "Coming soon...",
             description: "Thank you for using this app! I'm working hard to bring you more tools and features. Stay tuned and thank for your patience.",

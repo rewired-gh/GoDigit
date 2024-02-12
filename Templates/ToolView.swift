@@ -24,6 +24,7 @@ struct __View: View {
       .padding()
       .navigationTitle("__")
     }
+    .tint(.green)
   }
 }
 

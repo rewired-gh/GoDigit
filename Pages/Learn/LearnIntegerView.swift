@@ -45,14 +45,14 @@ struct LearnIntegerView: View {
         """)
         Text("0001_0010")
           .font(.system(size: 24, design: .monospaced))
-          .frame(width: .infinity)
+          .frame(maxWidth: .infinity)
           .padding(.top, -12)
         Text("""
         2. Flip every bits:
         """)
         Text("1110_1101")
           .font(.system(size: 24, design: .monospaced))
-          .frame(width: .infinity)
+          .frame(maxWidth: .infinity)
           .padding(.top, -12)
         Text("""
         3. Add 1:
@@ -63,7 +63,7 @@ struct LearnIntegerView: View {
             .foregroundStyle(.tint)
         }
         .font(.system(size: 24, design: .monospaced))
-        .frame(width: .infinity)
+        .frame(maxWidth: .infinity)
         .padding(.top, -12)
         LaTeX("""
         The number -128 is a little bit special on an 8-bit computer. In fact, the $-2^{n-1}$ number is always special on an n-bit computer. Let's try to convert it.
@@ -72,14 +72,14 @@ struct LearnIntegerView: View {
         """)
         Text("1000_0000")
           .font(.system(size: 24, design: .monospaced))
-          .frame(width: .infinity)
+          .frame(maxWidth: .infinity)
           .padding(.top, -12)
         Text("""
         2. Flip every bits:
         """)
         Text("0111_1111")
           .font(.system(size: 24, design: .monospaced))
-          .frame(width: .infinity)
+          .frame(maxWidth: .infinity)
           .padding(.top, -12)
         Text("""
         3. Add 1:
@@ -87,7 +87,7 @@ struct LearnIntegerView: View {
         Text("1000_0000")
           .foregroundStyle(.tint)
           .font(.system(size: 24, design: .monospaced))
-          .frame(width: .infinity)
+          .frame(maxWidth: .infinity)
           .padding(.top, -12)
         Text("""
         Interesting. The the two's complement of -128 is itself!

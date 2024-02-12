@@ -1,8 +1,8 @@
 import BigInt
 import SwiftUI
 
-struct Segment: Identifiable {
-  let id = UUID()
+struct Segment: Identifiable, Codable {
+  var id = UUID()
   var start: Int
   var end: Int
   var label: String
@@ -13,18 +13,37 @@ struct SegmentOutput: Identifiable {
   let range: String
   let label: String
   let hex: String
+  let dec: String
   let bin: String
 }
 
-class SegmentorToolViewModel: ObservableObject {
-  @Published var inputRadix: Radix = .dec {
-    didSet {}
-  }
+struct Preset: Identifiable, Codable {
+  var id = UUID()
+  var name: String
+  var segments: [Segment]
+}
 
+class SegmentorToolViewModel: ObservableObject {
+  @Published var inputRadix: Radix = .dec
   @Published var segments: [Segment] = []
   @Published var inputValueString = ""
   @Published var segmentOutputs: [SegmentOutput] = []
   var isCanCalculate = true
+  @Published var isPresetsSheetPresent = false
+  @AppStorage("BitsExtractorPresets") var presets: [Preset] = [
+    Preset(name: "IEEE 754-2008 32 bits", segments: [
+      Segment(start: 31, end: 31, label: "Sign"),
+      Segment(start: 23, end: 30, label: "Exponent"),
+      Segment(start: 0, end: 22, label: "Fraction"),
+    ]),
+    Preset(name: "IEEE 754-2008 64 bits", segments: [
+      Segment(start: 63, end: 63, label: "Sign"),
+      Segment(start: 52, end: 62, label: "Exponent"),
+      Segment(start: 0, end: 51, label: "Fraction"),
+    ]),
+  ]
+  @Published var newPresetName = ""
+  @Published var isInvalidNameAlertPresent = false
 
   func addNewSegment() {
     let newStartIdx = segments.isEmpty ? 0 : segments.last!.end + 1
@@ -67,10 +86,36 @@ class SegmentorToolViewModel: ObservableObject {
         range: "[\(seg.end), \(seg.start)]",
         label: seg.label,
         hex: String(tmp ?? 0, radix: 16).leftPad(with: "0", toLength: hexWidth),
+        dec: String(tmp ?? 0),
         bin: String(tmp ?? 0, radix: 2).leftPad(with: "0", toLength: binWidth)
       ))
     }
     isCanCalculate = true
+  }
+
+  func togglePresetsSheet() {
+    isPresetsSheetPresent = !isPresetsSheetPresent
+  }
+
+  func deletePreset(element: Preset) {
+    let index = presets.firstIndex(where: { $0.id == element.id })
+    guard index != nil else {
+      return
+    }
+    presets.remove(at: index!)
+  }
+
+  func changeOrAddPreset() {
+    guard !newPresetName.isEmpty else {
+      isInvalidNameAlertPresent = true
+      return
+    }
+    let index = presets.firstIndex(where: { $0.name == newPresetName })
+    guard index != nil else {
+      presets.append(Preset(name: newPresetName, segments: segments))
+      return
+    }
+    presets[index!].segments = segments
   }
 }
 
@@ -81,6 +126,9 @@ struct SegmentorToolView: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 25) {
         SectionView(title: "Segment definitions", icon: "square.and.pencil") {
+          TextField("Preset name", text: $model.newPresetName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .submitLabel(.done)
           Label("Tips: Each segment is defined by `[end:start]` (including start bit and end bit).", systemImage: "lightbulb")
             .labelStyle(.automatic)
             .foregroundStyle(.secondary)
@@ -117,7 +165,7 @@ struct SegmentorToolView: View {
             }
             .frame(maxWidth: .infinity)
             Button("Save as preset", systemImage: "square.and.arrow.down") {
-              model.addNewSegment()
+              model.changeOrAddPreset()
             }
             .frame(maxWidth: .infinity)
           }
@@ -152,12 +200,20 @@ struct SegmentorToolView: View {
                 .lineLimit(1)
                 .foregroundStyle(.secondary)
                 Divider()
-                VStack {
-                  HStack(spacing: 0) {
-                    Text("Hex: ")
-                    Text(output.hex)
-                      .textSelection(.enabled)
-                    Spacer()
+                VStack(spacing: 5) {
+                  HStack(spacing: 5) {
+                    HStack(spacing: 0) {
+                      Text("Hex: ")
+                      Text(output.hex)
+                        .textSelection(.enabled)
+                      Spacer()
+                    }
+                    HStack(spacing: 0) {
+                      Text("Dec: ")
+                      Text(output.dec)
+                        .textSelection(.enabled)
+                      Spacer()
+                    }
                   }
                   HStack(spacing: 0) {
                     Text("Bin: ")
@@ -187,10 +243,78 @@ struct SegmentorToolView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Presets") {
-            print("Presets tapped!")
+            model.togglePresetsSheet()
           }
         }
       }
+    }
+    .sheet(isPresented: $model.isPresetsSheetPresent) {
+      VStack(spacing: 0) {
+        ZStack {
+          HStack {
+            Spacer()
+            Text("Presets")
+              .font(.headline)
+            Spacer()
+          }
+          HStack {
+            Spacer()
+            Button(action: {
+              model.togglePresetsSheet()
+            }) {
+              Text("Close")
+            }
+          }
+        }
+        .padding(.horizontal, 25)
+        .padding(.vertical, 15)
+        if model.presets.isEmpty {
+          VStack {
+            Spacer()
+            Text("Presets list is empty")
+              .font(.title2)
+              .foregroundStyle(.secondary)
+            Spacer()
+          }
+        } else {
+          List(model.presets) { preset in
+            HStack(spacing: 20) {
+              Button(action: {
+                model.newPresetName = preset.name
+                model.segments = preset.segments
+                model.togglePresetsSheet()
+              }) {
+                Text(preset.name)
+                  .frame(maxWidth: .infinity, alignment: .topLeading)
+              }
+              .buttonStyle(.borderless)
+              .foregroundStyle(.primary)
+              Divider()
+              Button(action: {
+                model.deletePreset(element: preset)
+              }) {
+                Image(systemName: "trash")
+                  .foregroundColor(.red)
+              }
+              .buttonStyle(.borderless)
+            }
+          }
+        }
+      }
+      .frame(
+        maxWidth: .infinity,
+        maxHeight: .infinity,
+        alignment: .topLeading
+      )
+    }
+    .alert(
+      "Invalid preset name",
+      isPresented: $model.isInvalidNameAlertPresent,
+      actions: {
+        Button("OK", role: .cancel) {}
+      }
+    ) {
+      Text("The current preset is unsaved. Please enter a valid preset name.")
     }
     .tint(.pink)
   }

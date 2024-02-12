@@ -36,6 +36,11 @@ enum NumberKind: String, CaseIterable, Identifiable {
   var id: Self { self }
 }
 
+enum FloatPrecision: String, CaseIterable, Identifiable {
+  case single, double
+  var id: Self { self }
+}
+
 func stringToBigInt(str: String, radix: Radix, width: Int, kind: NumberKind) -> BigInt? {
   if str.isEmpty {
     return nil
