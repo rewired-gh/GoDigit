@@ -112,6 +112,19 @@ class FloatToolViewModel: ObservableObject {
       return str.leftPad(with: "0", toLength: 13)
     }
   }
+
+  var fractionBinString: String {
+    guard numberFraction != nil else {
+      return "Unavailable"
+    }
+    let str = String(numberFraction!, radix: 2)
+    switch precision {
+    case .single:
+      return "1." + str.leftPad(with: "0", toLength: 23)
+    case .double:
+      return "1." + str.leftPad(with: "0", toLength: 52)
+    }
+  }
 }
 
 struct FloatToolView: View {
@@ -128,11 +141,6 @@ struct FloatToolView: View {
           }.pickerStyle(SegmentedPickerStyle())
         }
         SectionView(title: "Input value", icon: "equal.circle") {
-          Label("Tips: #TODO", systemImage: "lightbulb")
-            .labelStyle(.automatic)
-            .foregroundStyle(.secondary)
-            .font(.footnote)
-            .padding(.vertical, 5)
           TextField("Input value", text: $model.inputNumberString)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .autocorrectionDisabled()
@@ -180,6 +188,13 @@ struct FloatToolView: View {
           HStack(spacing: 0) {
             Text("Hex (raw): ")
             Text(model.fractionHexString)
+              .textSelection(.enabled)
+          }
+          .padding(.top, 2)
+          .font(.system(.body, design: .monospaced))
+          HStack(spacing: 0) {
+            Text("Bin: ")
+            Text(model.fractionBinString)
               .textSelection(.enabled)
           }
           .padding(.top, 2)

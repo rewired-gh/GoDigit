@@ -41,6 +41,32 @@ class SegmentorToolViewModel: ObservableObject {
       Segment(start: 52, end: 62, label: "Exponent"),
       Segment(start: 0, end: 51, label: "Fraction"),
     ]),
+    Preset(name: "RISC-V R-type Instruction", segments: [
+      Segment(start: 0, end: 6, label: "opcode"),
+      Segment(start: 7, end: 11, label: "rd"),
+      Segment(start: 12, end: 14, label: "funct3"),
+      Segment(start: 15, end: 19, label: "rs1"),
+      Segment(start: 10, end: 24, label: "rs2"),
+      Segment(start: 25, end: 31, label: "funct7"),
+    ]),
+    Preset(name: "RISC-V Sv48 PTE", segments: [
+      Segment(start: 0, end: 0, label: "V"),
+      Segment(start: 1, end: 1, label: "R"),
+      Segment(start: 2, end: 2, label: "W"),
+      Segment(start: 3, end: 3, label: "X"),
+      Segment(start: 4, end: 4, label: "U"),
+      Segment(start: 5, end: 5, label: "G"),
+      Segment(start: 6, end: 6, label: "A"),
+      Segment(start: 7, end: 7, label: "D"),
+      Segment(start: 8, end: 9, label: "RSW"),
+      Segment(start: 10, end: 18, label: "PPN[0]"),
+      Segment(start: 19, end: 27, label: "PPN[1]"),
+      Segment(start: 28, end: 36, label: "PPN[2]"),
+      Segment(start: 37, end: 53, label: "PPN[3]"),
+      Segment(start: 54, end: 60, label: "(Reserved)"),
+      Segment(start: 61, end: 62, label: "PBMT"),
+      Segment(start: 63, end: 63, label: "N"),
+    ]),
   ]
   @Published var newPresetName = ""
   @Published var isInvalidNameAlertPresent = false
