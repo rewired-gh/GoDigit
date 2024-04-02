@@ -10,14 +10,17 @@ This app is one of the winner of the Swift Student Challenge 2024. More features
 
 ### Tools
 
-Integer converter: Convert integer number to other forms. It is useful for exploring how integer numbers are stored in computers.
-Bits extractor: Extract binary bits and convert segments to readable hexadecimal. It is useful for perceiving the value of each segment.
-Float inspector: Inspect the raw representaion of floating-point numbers. It is useful for understanding the implementation of IEEE 754.
+- Integer converter: Convert integer number to other forms. It is useful for exploring how integer numbers are stored in computers.
+
+- Bits extractor: Extract binary bits and convert segments to readable hexadecimal. It is useful for perceiving the value of each segment.
+
+- Float inspector: Inspect the raw representaion of floating-point numbers. It is useful for understanding the implementation of IEEE 754.
 
 ### Learning Content
 
-Number and radix: Learn what is a radix and how to convert between radices. It covers three commonly-used radices.
-Integer in computer: Learn how integer numbers are stored in computers. It covers the basics of two's complement.
+- Number and radix: Learn what is a radix and how to convert between radices. It covers three commonly-used radices.
+
+- Integer in computer: Learn how integer numbers are stored in computers. It covers the basics of two's complement.
 
 ## Motivation
 
