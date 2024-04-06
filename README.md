@@ -1,4 +1,4 @@
-# GoDigit
+# GoDigit <img src="./Assets/SSC2024_Social_Static_1x1.jpg" align="right" width="100" alt="Swift Student Challenge Winner"></img>
 
 ## Introduction
 
