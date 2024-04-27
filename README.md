@@ -1,5 +1,8 @@
 # GoDigit <img src="./Assets/SSC2024_Social_Static_1x1.jpg" align="right" width="100" alt="Swift Student Challenge Winner"></img>
 
+> [!NOTE]
+> This repository is archived. For the latest and improved app, please refer to [rewired-gh/BitLab](https://github.com/rewired-gh/BitLab).
+
 ## Introduction
 
 GoDigit is an app that serves both as a toolbox for tinkering with representations of numbers in computers and as a source of accompanying learning content. It offers tools for debugging simulation waveforms, examining numbers within memory regions, and acquiring practical knowledge about computer systems.
